@@ -3,6 +3,9 @@ package com.mmling.mybatisRedisCache.service.impl;
 import com.mmling.mybatisRedisCache.dao.StudentDao;
 import com.mmling.mybatisRedisCache.entity.Student;
 import com.mmling.mybatisRedisCache.service.StudentService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,7 +29,7 @@ public class StudentServiceImpl implements StudentService {
      * @return 实例对象
      */
     @Override
-//    @Cacheable(value = "user", key = "#id")
+    @Cacheable(value = "user", key = "#id")
     public Student queryById(Integer id) {
         return this.studentDao.queryById(id);
     }
@@ -63,7 +66,7 @@ public class StudentServiceImpl implements StudentService {
      * @return 实例对象
      */
     @Override
-//    @CachePut(value = "user", key = "#student.id")
+    @CachePut(value = "user", key = "#student.id")
     public Student update(Student student) {
         this.studentDao.update(student);
         return this.queryById(student.getId());
@@ -76,7 +79,7 @@ public class StudentServiceImpl implements StudentService {
      * @return 是否成功
      */
     @Override
-//    @CacheEvict(value = "user", key = "#id")
+    @CacheEvict(value = "user", key = "#id")
     public boolean deleteById(Integer id) {
         return this.studentDao.deleteById(id) > 0;
     }

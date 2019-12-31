@@ -3,7 +3,7 @@
 <mapper namespace="com.mmling.mybatisRedisCache.dao.StudentDao">
 
     <!-- 开启基于redis的二级缓存 -->
-    <cache type="com.mmling.mybatisRedisCache.cache.RedisCache"/>
+    <!--<cache type="com.mmling.mybatisRedisCache.cache.RedisCache"/>-->
 
     <resultMap type="com.mmling.mybatisRedisCache.entity.Student" id="StudentMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
@@ -32,7 +32,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="StudentMap">
         select
-          id, age, sex, address, name
+        id, age, sex, address, name
         from student.student
         <where>
             <if test="id != null">
@@ -60,7 +60,8 @@
     </insert>
 
     <!--通过主键修改数据-->
-    <update id="update" flushCache="true">
+    <!-- <update id="update" flushCache="true"> -->
+    <update id="update">
         update student.student
         <set>
             <if test="age != null">
@@ -80,7 +81,8 @@
     </update>
 
     <!--通过主键删除-->
-    <delete id="deleteById" flushCache="true">
+    <!-- <delete id="deleteById" flushCache="true"> -->
+    <delete id="deleteById">
         delete from student.student where id = #{id}
     </delete>
 
