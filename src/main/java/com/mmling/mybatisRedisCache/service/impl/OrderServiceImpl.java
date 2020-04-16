@@ -39,7 +39,10 @@ public class OrderServiceImpl implements OrderService {
             log.info("订单支付超时，order = {}", order);
             orderMapper.updateStatus(order.getId(), OrderStutus.PAYMENTTIMEOUT.getCode());
         }
-        delayOrderComponent.removeToOrderDelayQueue(orderDelay);
+        if (delayOrderComponent != null) {
+            //第一次加载，delayOrderComponent还未注入
+            delayOrderComponent.removeToOrderDelayQueue(orderDelay);
+        }
     }
 
     @Override
@@ -48,13 +51,28 @@ public class OrderServiceImpl implements OrderService {
         OrderDelay orderDelay = new OrderDelay(id);
         if (order != null && OrderStutus.UNPAID.getCode().equals(order.getStatus())) {
             log.info("订单取消支付，order = {}", order);
-            orderMapper.updateStatus(id, OrderStutus.UNPAID.getCode());
+            orderMapper.updateStatus(id, OrderStutus.CANCELPAYMENT.getCode());
+            delayOrderComponent.removeToOrderDelayQueue(orderDelay);
         }
-        delayOrderComponent.removeToOrderDelayQueue(orderDelay);
     }
 
     @Override
     public List<Order> listNotPayOrder() {
         return orderMapper.listPayStutsOrder(OrderStutus.UNPAID.getCode());
+    }
+
+    @Override
+    public Order add(Order order) {
+        orderMapper.add(order);
+        order = orderMapper.getOrderById(order.getId());
+        OrderDelay orderDelay = new OrderDelay(order.getId(),order.getExpireTime().getTime());
+        delayOrderComponent.addToOrderDelayQueue(orderDelay);
+        log.info("新增订单，order = {}", order);
+        return order;
+    }
+
+    @Override
+    public Order select(String userName) {
+        return orderMapper.selectByName(userName);
     }
 }

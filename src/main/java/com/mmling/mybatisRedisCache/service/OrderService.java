@@ -20,4 +20,7 @@ public interface OrderService {
 
     List<Order> listNotPayOrder();
 
+    Order add(Order order);
+
+    Order select(String userName);
 }

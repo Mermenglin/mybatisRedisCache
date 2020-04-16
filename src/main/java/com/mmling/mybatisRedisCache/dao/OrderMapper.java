@@ -18,4 +18,8 @@ public interface OrderMapper {
     List<Order> listPayStutsOrder(@Param("status") Integer status);
 
     Order getOrderById(@Param("id") Long id);
+
+    void add(Order order);
+
+    Order selectByName(@Param("userName") String userName);
 }
