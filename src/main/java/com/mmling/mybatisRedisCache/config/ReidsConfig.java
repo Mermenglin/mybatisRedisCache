@@ -24,10 +24,10 @@ import java.time.Duration;
 public class ReidsConfig {
 
     @Bean
-    public RedisTemplate<Object, Student> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<Object, Student> template = new RedisTemplate<>();
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<Object, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
-        Jackson2JsonRedisSerializer<Student> serializer = new Jackson2JsonRedisSerializer<Student>(Student.class);
+        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<Object>(Object.class);
         template.setDefaultSerializer(serializer);
         return template;
     }

@@ -6,6 +6,7 @@
   优点，可以自定义配置key，value等，更加灵活。  
   缺点，在方法上添加注解，需要配置的地方就很多，代码量增加
 
+    springboot 启动类上加上注解 @EnableCaching，开启缓存
     注解：
     注解中的key是根据入参时获取的内部值，
     所以insert无法获取student中的id
